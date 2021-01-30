@@ -1,23 +1,16 @@
-/** Елемент списку */
+/** LinkedArray's item */
 class LinkItem {
     #next = null; // посилання на наступний елемент
     #prev = null; // попередній
 
-    /**
-     * @param {*} value значення елементу
-     * @param {Number} index порядковий номер
-     */
     constructor(value, index = 0) {
         this.value = value;
         this.index = index;
     }
 };
 
-/** Зв'язний масив */
+/** Сollection of nodes which together represent a sequence */
 class LinkedArray {
-    /**
-     * @param  {...any} values список значень
-     */
     constructor(...values) {
         this.clear(); // визначення першого елемента
         this.last = this.first; // останній елемент
@@ -25,26 +18,20 @@ class LinkedArray {
             this.addArray(values);
     }
 
-    /** Довжина списку */
     get length() {
-        return this.first.value; // довжина зберігається в першому елементі
+        return this.first.value; // the length is stored in the first element
     }
 
-    /** Додати елемент в список
-     * @param {*} value значення елементу
-     */
     add(value) {
         value = new LinkItem(value);
         this.last.next = value
         value.prev = this.last
         this.last = value
-        this.first.value++; // збільшення лічильника довжини
+        this.first.value++; // increase the length counter
         this.last.index = this.first.value - 1;
     }
 
-    /** Додати колекцію значень
-     * @param {Iterable} values колекція
-     */
+    /** Add a collection */
     addArray(...values) {
         for (let value of values) {
             console.log('.', value);
@@ -52,8 +39,8 @@ class LinkedArray {
         }
     }
 
-    /** Видалення останнього елементу
-     * @returns значення елементу
+    /** Delete the last item
+     * @returns element value
      */
     pop() {
         const value = this.last.value;
@@ -67,9 +54,8 @@ class LinkedArray {
     }
 
     /**
-     * Пошук значення в списку [O(n)]
-     * @param {*} value значення
-     * @returns {Number} індекс | undefined за відсутності value
+     * Search for a value in the list [O(n)]
+     * @returns {Number} index | undefined if the value is missing
      */
     find(value) {
         let current = this.first;
@@ -80,9 +66,9 @@ class LinkedArray {
     }
 
     /**
-     * Отримати значення за порядковим номером [O(n)]
-     * @param {Number} index  0 <= індекс < length
-     * @returns {*} значення елементу | undefined за відсутності або некоретності index
+     * Get the value by index [O(n)]
+     * @param {Number}  0 <= index < length
+     * @returns {*} element value | undefined if the index is missing or incorrect
      */
     get(index) { 
         if (index < 0 || index >= this.length)
@@ -94,11 +80,10 @@ class LinkedArray {
         return undefined;
     }
     
-    // Перебір елементів:
-
+    // Enumerate:
     /**
-     * Значення з індексами через .value, .index
-     * @returns {Generator} генератор
+     * Values with indexes by .value, .index
+     * @returns {Generator}
      */
     *withIndexes() {
         let current = this.first;
@@ -107,8 +92,8 @@ class LinkedArray {
     }
 
     /** 
-     * Перевернутий список
-     * @returns {Generator} генератор
+     * Reversed array
+     * @returns {Generator}
     */
     *reverse() {
         let current = this.last
@@ -118,10 +103,6 @@ class LinkedArray {
         }
     }
 
-    /** 
-     * Системний символ - ітератор 
-     * @param {String} mode режим [default, reverse]
-     */
     [Symbol.iterator]() {
         console.log(this);
         return new LinkIter(this); 
