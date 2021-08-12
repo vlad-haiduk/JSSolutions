@@ -54,6 +54,7 @@ class Summator {
 }
 
 const action = new Summator();
+
 console.log(action.sum(1));
 console.log(action.sum(1, 7));
 console.log(action.sum(1, 7, 3));
